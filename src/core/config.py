@@ -6,6 +6,7 @@ class RunConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8006
 
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env"),
