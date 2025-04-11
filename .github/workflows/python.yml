@@ -1,4 +1,4 @@
-name: profile server
+name: profiles server
 
 on:
   push:
