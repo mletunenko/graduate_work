@@ -7,6 +7,15 @@ class RunConfig(BaseModel):
     port: int = 8006
 
 
+class DatabaseConfig(BaseModel):
+    url: str = "postgresql+asyncpg://user:password@127.0.0.1:30003/profiles"
+    sync_url: str = "postgresql+psycopg://user:password@auth_postgres:30003/profiles"
+    echo: bool = False
+    echo_pool: bool = False
+    pool_size: int = 50
+    max_overflow: int = 10
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env"),
@@ -15,6 +24,7 @@ class Settings(BaseSettings):
         env_prefix="APP_CONFIG__",
     )
     run: RunConfig = RunConfig()
+    db: DatabaseConfig = DatabaseConfig()
 
 
 settings = Settings()
