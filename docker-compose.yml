@@ -1,0 +1,50 @@
+services:
+
+  profiles_pg:
+    image: postgres:16
+    env_file:
+      - postgres.env
+    networks:
+      - project_network
+    volumes:
+      - pg_data_profiles:/var/lib/postgresql/data
+    ports:
+      - "30003:30003"
+    command:
+      ["postgres", "-c", "log_statement=all"]
+
+#  profiles_app:
+#    build: .
+#    networks:
+#      - project_network
+#    env_file:
+#      - .env
+#    ports:
+#      - "8005:8000"
+#    command: >
+#      sh -c "
+#      /scripts/wait-for-it.sh profiles_rabbitmq:5672 -s -t 60 &&
+#      /scripts/wait-for-it.sh profiles_pg:30002 -s -t 60 &&
+#      alembic upgrade head &&
+#      gunicorn -w 4 -k uvicorn.workers.UvicornWorker web_server:app --bind 0.0.0.0:8000
+#      "
+
+#  profiles_nginx:
+#    image: nginx:latest
+#    networks:
+#      - project_network
+#    ports:
+#      - "85:80"
+#    volumes:
+#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./src/core:/etc/nginx/conf.d:ro
+#    depends_on:
+#      - profiles_app
+#    restart: unless-stopped
+
+volumes:
+  pg_data_profiles:
+
+networks:
+  project_network:
+    external: true
