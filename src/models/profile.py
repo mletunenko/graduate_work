@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 
-class Profile(Base):
+class ProfileModel(Base):
     __tablename__ = "profiles"
     email: Mapped[str] = mapped_column(unique=True)
     phone: Mapped[str] = mapped_column(
@@ -32,7 +32,7 @@ class Profile(Base):
         return f"<Profile {self.email}>"
 
 
-class Role(Base):
+class RoleModel(Base):
     __tablename__ = "roles"
 
     title: Mapped[str] = mapped_column(unique=True)

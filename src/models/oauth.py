@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from .base import Base
 
 
-class OAuthProvider(Base):
+class OAuthProviderModel(Base):
     __tablename__ = "oauth_providers"
 
     name: Mapped[str] = mapped_column(unique=True)
@@ -14,7 +14,7 @@ class OAuthProvider(Base):
         return f"<OAuthProvider {self.name}>"
 
 
-class OAuthAccount(Base):
+class OAuthAccountModel(Base):
     __tablename__ = "oauth_accounts"
 
     profile_id: Mapped[UUID4] = mapped_column(ForeignKey("profiles.id", ondelete="CASCADE"))

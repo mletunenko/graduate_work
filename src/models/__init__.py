@@ -1,4 +1,4 @@
-from .oauth import OAuthAccount as OAuthAccount
-from .oauth import OAuthProvider as OAuthProvider
-from .profile import Profile as Profile
-from .profile import Role as Role
+from .oauth import OAuthAccountModel as OAuthAccountModel
+from .oauth import OAuthProviderModel as OAuthProviderModel
+from .profile import ProfileModel as ProfileModel
+from .profile import RoleModel as RoleModel
