@@ -1,9 +1,9 @@
 import datetime
 
-from pydantic import UUID4
-from sqlalchemy import TIMESTAMP, ForeignKey
+from sqlalchemy import TIMESTAMP, Enum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from utils.enums import UserRoleEnum
 from .base import Base
 
 
@@ -16,11 +16,9 @@ class ProfileModel(Base):
     first_name: Mapped[str] = mapped_column(default="")
     last_name: Mapped[str] = mapped_column(default="")
     birth_date: Mapped[datetime.date] = mapped_column()
+    role: Mapped[UserRoleEnum] = mapped_column(Enum(UserRoleEnum, name="role"), default=UserRoleEnum.BASIC)
 
-    role_id: Mapped[UUID4 | None] = mapped_column(ForeignKey("roles.id", ondelete="SET NULL"))
-    role: Mapped["Role"] = relationship(lazy="joined")
-
-    oauth_accounts = relationship("OAuthAccount", back_populates="profile", cascade="all, delete-orphan")
+    oauth_accounts = relationship("OAuthAccountModel", back_populates="profile", cascade="all, delete-orphan")
 
     updated_at: Mapped[datetime.datetime] = mapped_column(
         TIMESTAMP(timezone=True),
@@ -30,13 +28,3 @@ class ProfileModel(Base):
 
     def __repr__(self) -> str:
         return f"<Profile {self.email}>"
-
-
-class RoleModel(Base):
-    __tablename__ = "roles"
-
-    title: Mapped[str] = mapped_column(unique=True)
-    system_role: Mapped[bool | None] = mapped_column(default=False)
-
-    def __repr__(self) -> str:
-        return f"<Role {self.title}>"

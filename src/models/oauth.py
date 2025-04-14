@@ -24,4 +24,4 @@ class OAuthAccountModel(Base):
     refresh_token: Mapped[str] = mapped_column(nullable=True)
     expires_at: Mapped[int] = mapped_column(nullable=True)
 
-    profile = relationship("Profiles", back_populates="oauth_accounts")
+    profile = relationship("ProfileModel", back_populates="oauth_accounts")
