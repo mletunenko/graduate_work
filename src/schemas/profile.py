@@ -9,11 +9,10 @@ from utils.validators import validate_and_normalize_phone
 
 class ProfileIn(BaseModel):
     email: EmailStr
-    password: str
-    phone: PhoneNumber
-    first_name: str
-    last_name: str
-    birth_date: date
+    phone: PhoneNumber | None = None
+    first_name: str = ""
+    last_name: str = ""
+    birth_date: date | None = None
     role: UserRoleEnum = UserRoleEnum.BASIC
 
     @field_validator("phone")
@@ -26,8 +25,8 @@ class ProfileOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     email: EmailStr
-    phone: PhoneNumber
-    first_name: str
-    last_name: str
-    birth_date: date
+    phone: PhoneNumber | None = None
+    first_name: str = ""
+    last_name: str = ""
+    birth_date: date | None = None
     role: str | None = None
