@@ -15,7 +15,7 @@ class ProfileIn(BaseModel):
     first_name: str = ""
     last_name: str = ""
     birth_date: date | None = None
-    role: UserRoleEnum = UserRoleEnum.BASIC
+    # role: UserRoleEnum = UserRoleEnum.BASIC
 
     @field_validator("phone")
     def validate_phone(cls, v):
@@ -31,7 +31,7 @@ class ProfileOut(BaseModel):
     first_name: str = ""
     last_name: str = ""
     birth_date: date | None = None
-    role: str | None = None
+    # role: str | None = None
 
 
 class ProfileListParams(BaseModel):
@@ -47,4 +47,4 @@ class ProfilePatch(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     birth_date: date | None = None
-    role: UserRoleEnum | None = None
+    # role: UserRoleEnum | None = None

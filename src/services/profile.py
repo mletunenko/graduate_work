@@ -38,7 +38,6 @@ class ProfileService:
             first_name=data.first_name,
             last_name=data.last_name,
             birth_date=data.birth_date,
-            role=data.role,
         )
         session.add(profile)
         await session.commit()

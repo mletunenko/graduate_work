@@ -16,7 +16,7 @@ class ProfileModel(Base):
     first_name: Mapped[str] = mapped_column(default="")
     last_name: Mapped[str] = mapped_column(default="")
     birth_date: Mapped[datetime.date] = mapped_column(nullable=True)
-    role: Mapped[UserRoleEnum] = mapped_column(Enum(UserRoleEnum, name="role"), default=UserRoleEnum.BASIC)
+    # role: Mapped[UserRoleEnum] = mapped_column(Enum(UserRoleEnum, name="role"), default=UserRoleEnum.BASIC)
 
     oauth_accounts = relationship("OAuthAccountModel", back_populates="profile", cascade="all, delete-orphan")
 
