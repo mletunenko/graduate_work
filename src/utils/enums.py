@@ -10,3 +10,4 @@ class UserRoleEnum(enum.StrEnum):
 class ClientErrorMessage(enum.StrEnum):
     NOT_UNIQUE_EMAIL_ERROR = "Электронная почта уже используется"
     NOT_UNIQUE_PHONE_ERROR = "Телефонный номер уже используется"
+    NOT_FOUND_PROFILE_ERROR = "Профиль не найден"

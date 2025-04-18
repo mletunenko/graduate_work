@@ -12,4 +12,4 @@ combined_router.include_router(profile_router)
 app.include_router(combined_router)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=settings.run.host, port=settings.run.port, reload=True)
+    uvicorn.run("web_server:app", host=settings.run.host, port=settings.run.port, reload=True)

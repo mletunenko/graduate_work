@@ -1,8 +1,10 @@
 from datetime import date, datetime
 
-from pydantic import UUID4, BaseModel, EmailStr, field_validator
+from fastapi import Depends
+from pydantic import UUID4, BaseModel, EmailStr, Field, field_validator
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
+from schemas.base import PaginationParams
 from utils.enums import UserRoleEnum
 from utils.validators import validate_and_normalize_phone
 
@@ -30,3 +32,19 @@ class ProfileOut(BaseModel):
     last_name: str = ""
     birth_date: date | None = None
     role: str | None = None
+
+
+class ProfileListParams(BaseModel):
+    email: EmailStr | None = None
+    birth_day: int | None = Field(None, description="День даты рождения", ge=1, le=31)
+    birth_month: int | None = Field(None, description="Месяц даты рождения", ge=1, le=12)
+    pagination: PaginationParams = Depends()
+
+
+class ProfilePatch(BaseModel):
+    email: EmailStr | None = None
+    phone: PhoneNumber | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    birth_date: date | None = None
+    role: UserRoleEnum | None = None

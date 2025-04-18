@@ -12,3 +12,46 @@
 - Сделать возможность оставлять рецензии на фильм.
 - Добавить к каждому фильму возможность смотреть отзывы пользователей и рейтинг.
 
+# Запуск приложения
+
+## Docker-compose
+
+1. Выполнить команды:
+```bash
+docker compose up -d
+```
+
+## Локальный запуск
+
+1. Активировать venv и создать .env по образцу
+2. Установить зависимости
+
+```bash
+pip install --upgrade pip && pip install -r requirements.txt
+```
+3. Используйте docker-compose.yml 
+
+Так же поднятие контейнеров с сервисами для локальной работы доступны через 
+
+```bash
+dc up -d profiles_pg profiles_rabbitmq
+```
+(dc up --build profiles_pg profiles_rabbitmq)
+4. Используйте Sentry 
+
+login: mletunenko@gmail.com
+
+pass: 8s.mf#2FRbVVRj7
+
+5. Переменные окружения в конфиге по умолчанию для локального запуска.
+
+6. Запуск приложения
+
+```bash
+python src/web_server.py 
+```
+7. Запуск воркера
+
+```bash
+python src/worker.py 
+```

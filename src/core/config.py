@@ -16,6 +16,12 @@ class DatabaseConfig(BaseModel):
     max_overflow: int = 10
 
 
+class AuthServiceConfig(BaseModel):
+    host: str = "127.0.0.1"
+    port: int = 8000
+    create_user_path: str = "/auth/users"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env"),
@@ -25,6 +31,7 @@ class Settings(BaseSettings):
     )
     run: RunConfig = RunConfig()
     db: DatabaseConfig = DatabaseConfig()
+    auth_service: AuthServiceConfig = AuthServiceConfig()
 
 
 settings = Settings()
