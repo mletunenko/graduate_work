@@ -5,17 +5,16 @@ from pydantic import UUID4, BaseModel, EmailStr, Field, field_validator
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
 from schemas.base import PaginationParams
-from utils.enums import UserRoleEnum
 from utils.validators import validate_and_normalize_phone
 
 
 class ProfileIn(BaseModel):
     email: EmailStr
+    password: str
     phone: PhoneNumber | None = None
     first_name: str = ""
     last_name: str = ""
     birth_date: date | None = None
-    # role: UserRoleEnum = UserRoleEnum.BASIC
 
     @field_validator("phone")
     def validate_phone(cls, v):
@@ -31,7 +30,6 @@ class ProfileOut(BaseModel):
     first_name: str = ""
     last_name: str = ""
     birth_date: date | None = None
-    # role: str | None = None
 
 
 class ProfileListParams(BaseModel):
@@ -42,9 +40,7 @@ class ProfileListParams(BaseModel):
 
 
 class ProfilePatch(BaseModel):
-    email: EmailStr | None = None
     phone: PhoneNumber | None = None
     first_name: str | None = None
     last_name: str | None = None
     birth_date: date | None = None
-    # role: UserRoleEnum | None = None

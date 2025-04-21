@@ -26,7 +26,10 @@ class ProfileService:
         return profile
 
     @staticmethod
-    async def create_profile(data: ProfileIn, session: AsyncSession) -> ProfileModel:
+    async def create_profile(
+        data: ProfileIn,
+        session: AsyncSession,
+    ) -> ProfileModel:
         if await ProfileService.get_profile_by_email(data.email, session):
             raise HTTPException(status_code=400, detail=ClientErrorMessage.NOT_UNIQUE_EMAIL_ERROR.value)
         if data.phone and await ProfileService.get_profile_by_phone(data.phone, session):
@@ -68,7 +71,7 @@ class ProfileService:
         return profile
 
     @staticmethod
-    async def get_profile_list(self, session: AsyncSession, query_params: ProfileListParams) -> list[ProfileModel]:
+    async def get_profile_list(session: AsyncSession, query_params: ProfileListParams) -> list[ProfileModel]:
         stmt = select(ProfileModel)
         if query_params.birth_day:
             stmt = stmt.filter(extract("day", ProfileModel.birth_date) == query_params.birth_day)

@@ -1,3 +1,4 @@
+from async_fastapi_jwt_auth import AuthJWT
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -22,6 +23,17 @@ class AuthServiceConfig(BaseModel):
     create_user_path: str = "/auth/users"
 
 
+class RabbitConfig(BaseModel):
+    host: str = "localhost"
+    login: str = "admin"
+    password: str = "password"
+
+
+class RedisConfig(BaseModel):
+    host: str = "localhost"
+    port: int = 6379
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env"),
@@ -29,9 +41,18 @@ class Settings(BaseSettings):
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
     )
+    authjwt_secret_key: str = "secret"
+    algorithm: str = "HS256"
     run: RunConfig = RunConfig()
     db: DatabaseConfig = DatabaseConfig()
     auth_service: AuthServiceConfig = AuthServiceConfig()
+    rabbit: RabbitConfig = RabbitConfig()
+    redis: RedisConfig = RedisConfig()
 
 
 settings = Settings()
+
+
+@AuthJWT.load_config
+def get_config():
+    return settings
