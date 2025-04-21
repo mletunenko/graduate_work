@@ -13,34 +13,46 @@ services:
     command:
       ["postgres", "-c", "log_statement=all"]
 
-#  profiles_app:
-#    build: .
-#    networks:
-#      - project_network
-#    env_file:
-#      - .env
-#    ports:
-#      - "8005:8000"
-#    command: >
-#      sh -c "
-#      /scripts/wait-for-it.sh profiles_rabbitmq:5672 -s -t 60 &&
-#      /scripts/wait-for-it.sh profiles_pg:30002 -s -t 60 &&
-#      alembic upgrade head &&
-#      gunicorn -w 4 -k uvicorn.workers.UvicornWorker web_server:app --bind 0.0.0.0:8000
-#      "
+  profiles_app:
+    build: .
+    networks:
+      - project_network
+    env_file:
+      - .env
+    ports:
+      - "8006:8000"
+    command: >
+      sh -c "
+      /scripts/wait-for-it.sh profiles_pg:30003 -s -t 60 &&
+      alembic upgrade head &&
+      gunicorn -w 4 -k uvicorn.workers.UvicornWorker web_server:app --bind 0.0.0.0:8000
+      "
 
-#  profiles_nginx:
-#    image: nginx:latest
-#    networks:
-#      - project_network
-#    ports:
-#      - "85:80"
-#    volumes:
-#      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-#      - ./src/core:/etc/nginx/conf.d:ro
-#    depends_on:
-#      - profiles_app
-#    restart: unless-stopped
+  profiles_worker:
+    build: .
+    networks:
+      - project_network
+    env_file:
+      - .env
+    command: >
+      sh -c "
+      /scripts/wait-for-it.sh profiles_pg:30003 -s -t 60 &&
+      alembic upgrade head &&
+      python worker.py
+      "
+
+  profiles_nginx:
+    image: nginx:latest
+    networks:
+      - project_network
+    ports:
+      - "86:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./src/core:/etc/nginx/conf.d:ro
+    depends_on:
+      - profiles_app
+    restart: unless-stopped
 
 volumes:
   pg_data_profiles:
