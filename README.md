@@ -34,7 +34,7 @@ pip install --upgrade pip && pip install -r requirements.txt
 Так же поднятие контейнеров с сервисами для локальной работы доступны через 
 
 ```bash
-dc up -d profiles_pg profiles_rabbitmq
+dc up -d profiles_pg
 ```
 (dc up --build profiles_pg profiles_rabbitmq)
 4. Используйте Sentry 
