@@ -48,3 +48,8 @@ class ProfilePatch(BaseModel):
     @field_validator("phone")
     def validate_phone(cls, v):
         return validate_and_normalize_phone(v)
+
+
+class UpdateEmailRequest(BaseModel):
+    old_email: EmailStr
+    new_email: EmailStr

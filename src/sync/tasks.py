@@ -3,7 +3,8 @@ import json
 from aio_pika import Message
 from aio_pika.abc import AbstractChannel
 
-from schemas.profile import ProfileIn, ProfileOut
+from models import ProfileModel
+from schemas.profile import ProfileIn
 
 
 async def create_user_task(
@@ -19,7 +20,7 @@ async def create_user_task(
 
 
 async def delete_user_task(
-    data: ProfileOut,
+    data: ProfileModel,
     rabbit_channel: AbstractChannel,
 ):
     body = {

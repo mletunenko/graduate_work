@@ -34,6 +34,12 @@ class RedisConfig(BaseModel):
     port: int = 6379
 
 
+class ProfileConfig(BaseModel):
+    host: str = "localhost"
+    port: int = 8006
+    update_email_path: str = "/profiles/api/internal/update-email"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env"),
@@ -46,6 +52,7 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     db: DatabaseConfig = DatabaseConfig()
     auth_service: AuthServiceConfig = AuthServiceConfig()
+    profile_service: ProfileConfig = ProfileConfig()
     rabbit: RabbitConfig = RabbitConfig()
     redis: RedisConfig = RedisConfig()
 
