@@ -86,3 +86,16 @@ class ProfileService:
         result = await session.execute(stmt)
         profile_list = list(result.scalars().all())
         return profile_list
+
+    @staticmethod
+    async def is_phone_unique(
+        new_phone: str,
+        profile_id: UUID4,
+        session: AsyncSession,
+    ) -> bool:
+        stmt = select(ProfileModel).where(ProfileModel.id != profile_id).where(ProfileModel.phone == new_phone)
+        result = await session.execute(stmt)
+        existent_profile = result.scalars().first()
+        if existent_profile:
+            return False
+        return True

@@ -1,4 +1,3 @@
-
 from async_fastapi_jwt_auth import AuthJWT
 from async_fastapi_jwt_auth.auth_jwt import AuthJWTBearer
 from fastapi import APIRouter, Depends, HTTPException, Response
@@ -13,6 +12,7 @@ from models import ProfileModel
 from schemas.profile import ProfileIn, ProfileListParams, ProfileOut, ProfilePatch
 from services.profile import ProfileService
 from sync.tasks import create_user_task, delete_user_task
+from utils.enums import ClientErrorMessage
 from utils.token import check_invalid_token
 
 router = APIRouter(prefix="/profiles", tags=["profile"])
@@ -57,6 +57,9 @@ async def update_profile(
     profile = await ProfileService.get_profile_by_id(profile_id, session)
     if profile.email != token["email"]:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Token invalid")
+
+    if data.phone and not await ProfileService.is_phone_unique(data.phone, profile_id, session):
+        raise HTTPException(status_code=400, detail=ClientErrorMessage.NOT_UNIQUE_PHONE_ERROR.value)
 
     profile = await ProfileService.update_profile(profile_id, data, session)
     return profile

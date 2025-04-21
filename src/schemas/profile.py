@@ -44,3 +44,7 @@ class ProfilePatch(BaseModel):
     first_name: str | None = None
     last_name: str | None = None
     birth_date: date | None = None
+
+    @field_validator("phone")
+    def validate_phone(cls, v):
+        return validate_and_normalize_phone(v)
