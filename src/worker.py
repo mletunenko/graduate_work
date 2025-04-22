@@ -26,14 +26,13 @@ async def process_update_email(message: aio_pika.IncomingMessage):
     try:
         message_data = json.loads(message.body.decode())
         update_email_url = f"http://{settings.profile_service.host}:{settings.profile_service.port}{settings.profile_service.update_email_path}"
-        logger.info(f"update_email_url: {update_email_url}")
         logger.info(f"message_data: {message_data}")
         async with aiohttp.ClientSession() as session:
             await session.post(update_email_url, json=message_data)
         await message.ack()
 
     except Exception as e:
-        print(f"Error processing message: {e}")
+        logger.error(f"Error processing message: {e}")
         await message.nack(requeue=False)
 
 
