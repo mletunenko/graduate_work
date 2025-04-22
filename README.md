@@ -55,3 +55,22 @@ python src/web_server.py
 ```bash
 python src/worker.py 
 ```
+## Связанные репозитории
+
+Сервис выдачи контента
+- https://github.com/mletunenko/Async_API_sprint_1_team
+
+Сервис административной панели 
+- https://github.com/mletunenko/new_admin_panel_sprint_3
+
+Сервис авторизации
+- https://github.com/mletunenko/Auth_sprint_1
+
+Сервис аналитики пользовательских действий
+- https://github.com/mletunenko/ugc_sprint_1
+
+Сервис хранения пользовательского контента
+- https://github.com/mletunenko/ugc_sprint_2
+
+Сервис профили (Дипломный проект, текущий репозиторий)
+- https://github.com/mletunenko/graduate_work
