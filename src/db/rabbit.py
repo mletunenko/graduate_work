@@ -5,6 +5,7 @@ from aio_pika.abc import AbstractChannel
 from fastapi import Depends
 
 from core.config import settings
+from core.consts import CREATE_USER_QUEUE, DELETE_USER_QUEUE
 
 
 class RabbitMQConnection:
@@ -30,8 +31,8 @@ class RabbitMQConnection:
 
     async def declare_queues(self):
         channel = await self.get_channel()
-        await channel.declare_queue("create_user", durable=True)
-        await channel.declare_queue("delete_user", durable=True)
+        await channel.declare_queue(CREATE_USER_QUEUE, durable=True)
+        await channel.declare_queue(DELETE_USER_QUEUE, durable=True)
         # delete from ugc
 
 
