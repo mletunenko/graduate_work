@@ -3,7 +3,11 @@ from async_fastapi_jwt_auth.auth_jwt import AuthJWTBearer
 from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import UUID4
 from redis.asyncio import Redis
-from starlette.status import HTTP_204_NO_CONTENT, HTTP_401_UNAUTHORIZED, HTTP_400_BAD_REQUEST
+from starlette.status import (
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED,
+)
 
 from db.postgres import SessionDep
 from db.rabbit import RabbitDep
@@ -59,7 +63,10 @@ async def update_profile(
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED, detail="Token invalid")
 
     if data.phone and not await ProfileService.is_phone_unique(data.phone, profile_id, session):
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail=ClientErrorMessage.NOT_UNIQUE_PHONE_ERROR.value)
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail=ClientErrorMessage.NOT_UNIQUE_PHONE_ERROR.value,
+        )
 
     profile = await ProfileService.update_profile(profile_id, data, session)
     return profile

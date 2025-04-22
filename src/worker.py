@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 logger.addHandler(logging.StreamHandler())
 
 logging.basicConfig(
-    level=logging.INFO,  # Уровень логирования (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[
         logging.FileHandler("app.log"),  # Логи в файл
@@ -25,7 +25,10 @@ logger = logging.getLogger(__name__)
 async def process_update_email(message: aio_pika.IncomingMessage):
     try:
         message_data = json.loads(message.body.decode())
-        update_email_url = f"http://{settings.profile_service.host}:{settings.profile_service.port}{settings.profile_service.update_email_path}"
+        update_email_url = (
+            f"http://{settings.profile_service.host}:{settings.profile_service.port}"
+            f"{settings.profile_service.update_email_path}"
+        )
         logger.info(f"message_data: {message_data}")
         async with aiohttp.ClientSession() as session:
             await session.post(update_email_url, json=message_data)

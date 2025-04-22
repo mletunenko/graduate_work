@@ -6,7 +6,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette.status import HTTP_404_NOT_FOUND
 
 from models import ProfileModel
-from schemas.profile import ProfileIn, ProfileListParams, ProfilePatch, UpdateEmailRequest
+from schemas.profile import (
+    ProfileIn,
+    ProfileListParams,
+    ProfilePatch,
+    UpdateEmailRequest,
+)
 from utils.enums import ClientErrorMessage
 
 
@@ -52,7 +57,10 @@ class ProfileService:
         result = await session.execute(stmt)
         profile = result.scalars().first()
         if not profile:
-            raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=ClientErrorMessage.NOT_FOUND_PROFILE_ERROR.value)
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND,
+                detail=ClientErrorMessage.NOT_FOUND_PROFILE_ERROR.value,
+            )
         return profile
 
     @staticmethod
@@ -107,6 +115,9 @@ class ProfileService:
     ) -> None:
         profile = await ProfileService.get_profile_by_email(data.old_email, session)
         if not profile:
-            raise HTTPException(status_code=HTTP_404_NOT_FOUND, detail=ClientErrorMessage.NOT_FOUND_PROFILE_ERROR.value)
+            raise HTTPException(
+                status_code=HTTP_404_NOT_FOUND,
+                detail=ClientErrorMessage.NOT_FOUND_PROFILE_ERROR.value,
+            )
         profile.email = data.new_email
         await session.commit()

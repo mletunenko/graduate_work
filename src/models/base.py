@@ -20,5 +20,6 @@ class Base(DeclarativeBase):
     metadata = MetaData(naming_convention=naming_conventions)
     id: Mapped[UUID4] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     created_at: Mapped[datetime.datetime] = mapped_column(
-        TIMESTAMP(timezone=True), default=partial(datetime.datetime.now, datetime.timezone.utc)
+        TIMESTAMP(timezone=True),
+        default=partial(datetime.datetime.now, datetime.timezone.utc),
     )
