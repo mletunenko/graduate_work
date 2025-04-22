@@ -6,7 +6,7 @@ import aio_pika
 import aiohttp
 
 from core.config import settings
-from core.consts import CREATE_USER_QUEUE
+from core.consts import UPDATE_EMAIL_QUEUE
 
 logger = logging.getLogger("profile-worker")
 logger.setLevel(logging.INFO)
@@ -41,7 +41,6 @@ async def process_update_email(message: aio_pika.IncomingMessage):
 
 
 async def consume():
-    logger.info(f"settings.rabbit.host: {settings.rabbit.host}")
     connection = await aio_pika.connect_robust(
         host=settings.rabbit.host,
         login=settings.rabbit.login,
@@ -50,7 +49,7 @@ async def consume():
 
     async with connection:
         channel = await connection.channel()
-        update_email_queue = await channel.declare_queue(CREATE_USER_QUEUE, durable=True)
+        update_email_queue = await channel.declare_queue(UPDATE_EMAIL_QUEUE, durable=True)
         await update_email_queue.consume(process_update_email, no_ack=False)
 
         await asyncio.Future()

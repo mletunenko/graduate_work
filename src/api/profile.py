@@ -15,7 +15,7 @@ from db.redis import get_redis_connection
 from models import ProfileModel
 from schemas.profile import ProfileIn, ProfileListParams, ProfileOut, ProfilePatch
 from services.profile import ProfileService
-from sync.tasks import create_user_task, delete_user_task
+from sync.tasks import create_user_task, delete_user_task, welcome_notification_task
 from utils.enums import ClientErrorMessage
 from utils.token import check_invalid_token
 
@@ -31,6 +31,7 @@ async def create_profile(
 ) -> ProfileModel:
     profile = await ProfileService.create_profile(data, session)
     await create_user_task(data, rabbit_channel)
+    await welcome_notification_task(profile, rabbit_channel)
     return profile
 
 
