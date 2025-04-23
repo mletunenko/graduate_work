@@ -33,7 +33,6 @@ class RabbitMQConnection:
         channel = await self.get_channel()
         await channel.declare_queue(CREATE_USER_QUEUE, durable=True)
         await channel.declare_queue(DELETE_USER_QUEUE, durable=True)
-        # delete from ugc
 
 
 rabbitmq = RabbitMQConnection()
